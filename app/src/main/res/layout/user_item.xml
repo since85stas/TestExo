@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="user"
+            type="stas.batura.testapp.data.room.User" />
+
+        <variable
+            name="viewModel"
+            type="stas.batura.testapp.ui.users.UsersViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:padding="8dp"
+        android:onClick="@{() -> viewModel.onItemClick(user.userId)}"
+        >
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="8dp">
+                <TextView
+                    userName="@{user.firstName}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="name"></TextView>
+
+                <TextView
+                    userName="@{user.lastName}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:gravity="start" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
