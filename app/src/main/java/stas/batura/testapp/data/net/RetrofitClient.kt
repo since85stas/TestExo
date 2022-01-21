@@ -7,6 +7,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.net.ssl.HostnameVerifier
+import javax.net.ssl.SSLSession
 
 
 object RetrofitClient   {
@@ -24,6 +26,13 @@ object RetrofitClient   {
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
+    
+    private val hostVerifier: HostnameVerifier = object : HostnameVerifier {
+        override fun verify(hostname: String?, session: SSLSession?): Boolean {
+            return true
+        }
+    }
+
 
     /**
      * Use the Retrofit builder to build a retrofit object using a Moshi converter with our Moshi
@@ -31,7 +40,8 @@ object RetrofitClient   {
      */
     private val retrofit = Retrofit.Builder()
         .addConverterFactory(MoshiConverterFactory.create(moshi))
-        .client(httpClient.addInterceptor(loggingInterceptor).build())
+        .client(httpClient.addInterceptor(loggingInterceptor).
+        hostnameVerifier(hostVerifier).build())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .baseUrl(BASE_URL)
         .build()

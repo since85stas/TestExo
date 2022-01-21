@@ -5,6 +5,6 @@ import retrofit2.http.*
 interface IRetrofit {
 
     @GET("test/item")
-    suspend fun getPayments(): NetResponse
+    suspend fun getData(): NetResponse
 
 }

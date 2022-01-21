@@ -4,17 +4,33 @@ import com.squareup.moshi.Json
 import java.util.*
 
 data class NetResponse (
-    @Json(name = "src")
-    var page: Int = 0,
+    @Json(name = "a")
+    var page: String = "",
 
-    @Json(name = "single")
+    @Json(name = "task_id")
     var perPage: Int = 0,
 
-    @Json(name = "split_v")
+    @Json(name = "status")
     var total: Int = 0,
 
+    @Json(name = "results")
+    var videos: Videos,
+) {
+
+}
+
+data class Videos (
+    @Json(name = "src")
+    var src: String = "",
+
+    @Json(name = "single")
+    var single: String = "",
+
     @Json(name = "split_v")
-    var totalPages: Int = 0,
+    var splitV: String = "",
+
+    @Json(name = "split_h")
+    var splitH: String = "",
 
 ){
 

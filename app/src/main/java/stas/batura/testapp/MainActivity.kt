@@ -25,14 +25,16 @@ class MainActivity : AppCompatActivity() {
 
         navView.setupWithNavController(navController)
 
-        val sendIntend = Intent().apply {
-            action = Intent.ACTION_ANSWER
-            putExtra(Intent.EXTRA_TEXT, "Привет")
-            setType("text/plain")
-        }
-        val rr = "fff"
 
-        startActivity(sendIntend)
+//
+//        val sendIntend = Intent().apply {
+//            action = Intent.ACTION_ANSWER
+//            putExtra(Intent.EXTRA_TEXT, "Привет")
+//            setType("text/plain")
+//        }
+//        val rr = "fff"
+//
+//        startActivity(sendIntend)
     }
 
 

@@ -42,10 +42,11 @@ class Repository @Inject constructor(): IRepository{
     }
 
     override suspend fun loadUsers() {
-        val users = retrofit.getPayments()
-        for (user in users.users) {
-            usersDao.insertPodcast(user = User.FromUserResponse.build(user))
-        }
+        val users = retrofit.getData()
+//        for (user in users.users) {
+//            usersDao.insertPodcast(user = User.FromUserResponse.build(user))
+//        }
+        Log.d(TAG, "loadUsers: ")
     }
 
     override fun getUsers(): Flow<List<User>> {
