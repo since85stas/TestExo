@@ -11,7 +11,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 object RetrofitClient   {
 
-    private val BASE_URL = "https://reqres.in/api/"
+    private val BASE_URL = "https://89.208.230.60/"
 
     private val loggingInterceptor = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BODY)

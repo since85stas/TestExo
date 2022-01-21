@@ -3,21 +3,18 @@ package stas.batura.testapp.data.net
 import com.squareup.moshi.Json
 import java.util.*
 
-data class UsersRequest (
-    @Json(name = "page")
+data class NetResponse (
+    @Json(name = "src")
     var page: Int = 0,
 
-    @Json(name = "per_page")
+    @Json(name = "single")
     var perPage: Int = 0,
 
-    @Json(name = "total")
+    @Json(name = "split_v")
     var total: Int = 0,
 
-    @Json(name = "toatal_pages")
+    @Json(name = "split_v")
     var totalPages: Int = 0,
-
-    @Json(name = "data")
-    var users: List<UserResponse>,
 
 ){
 

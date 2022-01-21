@@ -4,7 +4,7 @@ import retrofit2.http.*
 
 interface IRetrofit {
 
-    @GET("users")
-    suspend fun getPayments(): UsersRequest
+    @GET("test/item")
+    suspend fun getPayments(): NetResponse
 
 }
