@@ -9,7 +9,7 @@ data class Video (
     @PrimaryKey()
     var id: Int = 0,
 
-    var url: String? = "",
+    var url: String = "",
 
 ){
 

@@ -8,7 +8,7 @@ interface IRepository {
 
     suspend fun loadData()
 
-    fun getUsers(): Flow<List<Video>>
+    fun getVideos(): Flow<List<Video>>
 
 //    fun getUser(userId: Int): Flow<Video>
 //

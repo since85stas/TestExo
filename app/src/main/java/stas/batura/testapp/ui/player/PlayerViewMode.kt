@@ -22,7 +22,7 @@ class PlayerViewModel @ViewModelInject constructor(val repository: IRepository):
 
 //    val user = repository.getUser()
 
-    val users = repository.getUsers().asLiveData()
+    val users = repository.getVideos().asLiveData()
 
     init {
         Log.d(TAG, ": $repository")

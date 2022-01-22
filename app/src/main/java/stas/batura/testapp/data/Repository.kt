@@ -56,7 +56,7 @@ class Repository @Inject constructor(): IRepository{
         videoDao.insertVideo(Video(id = 3, url = links.src))
     }
 
-    override fun getUsers(): Flow<List<Video>> {
+    override fun getVideos(): Flow<List<Video>> {
         return videoDao.getVideos()
     }
 

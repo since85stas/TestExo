@@ -1,27 +1,22 @@
 package stas.batura.testapp.ui.player
 
 import android.os.Bundle
-import android.text.TextPaint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.main_activity.*
 import kotlinx.android.synthetic.main.player_fragment.*
 import stas.batura.testapp.R
+import stas.batura.testapp.data.room.Video
 import stas.batura.testapp.utils.ZoomOutPageTransformer
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
 
 private val TAG = "PlayerFragment.kt"
 
@@ -65,8 +60,10 @@ class PlayerFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
-        getPages()
+        viewModel.users.observe(viewLifecycleOwner) {videos ->
+            initPlayerVideos(videos = videos)
+        }
+//        initPlayerVideos()
 
         viewModel.spinner.observe(viewLifecycleOwner) { visible ->
             if (visible) {
@@ -89,28 +86,34 @@ class PlayerFragment: Fragment() {
         super.onStart()
     }
 
-    private fun getPages() {
+    private fun initPlayerVideos(videos: List<Video>) {
         viewPager.setPageTransformer(ZoomOutPageTransformer())
 
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        val pages = listOf<String>("111", "222")
+        pagerAdapter = ScreenSlidePagerAdapter(requireActivity().supportFragmentManager, videos)
+        viewPager.setAdapter(pagerAdapter)
+//        viewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this)
 
-        //        // to get ViewPager width and height we have to wait global layout
-        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(object :
-            ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                pagerAdapter = ScreenSlidePagerAdapter(requireActivity().supportFragmentManager, pages)
-                viewPager.setAdapter(pagerAdapter)
-                viewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this)
+        for (video in videos) {
+            pagerAdapter.addFragment(PageFragment.newInstance((video.url)))
+        }
 
-                for (page in pages) {
-                    pagerAdapter.addFragment(PageFragment.newInstance((page)))
-                }
-
-                viewPager.currentItem = startPage
-            }
-        })
+        viewPager.currentItem = startPage
+//        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(object :
+//            ViewTreeObserver.OnGlobalLayoutListener {
+//            override fun onGlobalLayout() {
+//                pagerAdapter = ScreenSlidePagerAdapter(requireActivity().supportFragmentManager, videos)
+//                viewPager.setAdapter(pagerAdapter)
+//                viewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this)
+//
+//                for (video in videos) {
+//                    pagerAdapter.addFragment(PageFragment.newInstance((video.url)))
+//                }
+//
+//                viewPager.currentItem = startPage
+//            }
+//        })
     }
 
     /**
@@ -127,7 +130,7 @@ class PlayerFragment: Fragment() {
      */
     inner class ScreenSlidePagerAdapter(
         val fragmentManager: FragmentManager,
-        val pageTexts: List<String>?
+        val videosList: List<Video>?
     ) :
         FragmentStateAdapter(fragmentManager, viewLifecycleOwner.lifecycle) {
 
@@ -151,7 +154,7 @@ class PlayerFragment: Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return pageTexts!!.size
+            return videosList!!.size
         }
 
         fun removeFragments() {
