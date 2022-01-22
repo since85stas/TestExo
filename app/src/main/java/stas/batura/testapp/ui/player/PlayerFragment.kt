@@ -12,6 +12,13 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.exoplayer2.C
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.player_fragment.*
 import stas.batura.testapp.R
@@ -30,6 +37,10 @@ class PlayerFragment: Fragment() {
     private lateinit var testText: String
 
     private lateinit var viewModel: PlayerViewModel
+
+    private var videoPlayer: SimpleExoPlayer? = null
+
+//    private var _dataSourceFactory: DefaultDataSourceFactory? = null
 //
 //    private lateinit var bindings: ReadFragmentBinding
 
@@ -78,6 +89,8 @@ class PlayerFragment: Fragment() {
                 showToast(text)
             }
         }
+
+//        initVideoPlayer()
 
         super.onViewCreated(view, savedInstanceState)
     }
@@ -162,5 +175,7 @@ class PlayerFragment: Fragment() {
         }
 
     }
+
+
 
 }

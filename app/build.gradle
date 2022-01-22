@@ -108,6 +108,9 @@ dependencies {
 
     //video/iptv - exo
     implementation 'com.google.android.exoplayer:exoplayer-core:2.14.2'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.14.2'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.14.2'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.14.2'
 }
 
 protobuf {
