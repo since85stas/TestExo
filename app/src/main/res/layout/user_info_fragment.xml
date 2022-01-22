@@ -6,7 +6,7 @@
     <data>
         <variable
             name="user"
-            type="stas.batura.testapp.data.room.User" />
+            type="stas.batura.testapp.data.room.Video" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

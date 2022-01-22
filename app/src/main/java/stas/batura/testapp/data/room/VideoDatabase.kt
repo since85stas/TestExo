@@ -30,7 +30,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
  * This pattern is pretty much the same for any database,
  * so you can reuse it.
  */
-@Database(entities =[User::class], version = 3, exportSchema = false)
+@Database(entities =[Video::class], version = 3, exportSchema = false)
 @TypeConverters(
     CategoryDataConverter::class,
    )

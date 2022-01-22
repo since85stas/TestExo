@@ -1,14 +1,14 @@
 package stas.batura.testapp.data
 
 import kotlinx.coroutines.flow.Flow
-import stas.batura.testapp.data.room.User
+import stas.batura.testapp.data.room.Video
 
 
 interface IRepository {
 
-    fun getUsers(): Flow<List<User>>
+    fun getUsers(): Flow<List<Video>>
 
-    fun getUser(userId: Int): Flow<User>
+    fun getUser(userId: Int): Flow<Video>
 
     fun isLogged(): Flow<Boolean>
 

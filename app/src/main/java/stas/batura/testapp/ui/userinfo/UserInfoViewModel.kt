@@ -4,11 +4,8 @@ import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import stas.batura.testapp.R
 import stas.batura.testapp.data.IRepository
-import stas.batura.testapp.data.room.User
 
 private val TAG = "MainViewModel"
 

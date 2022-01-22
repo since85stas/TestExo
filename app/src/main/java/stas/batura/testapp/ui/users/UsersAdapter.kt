@@ -5,14 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import kotlinx.android.synthetic.main.user_item.view.*
-import stas.batura.testapp.data.room.User
+import stas.batura.testapp.data.room.Video
 import stas.batura.testapp.databinding.UserItemBinding
 
 class UsersAdapter ( val viewModel: UsersViewModel
-): ListAdapter<User, UsersAdapter.ViewHolder>(TrackDiffCallback()) {
+): ListAdapter<Video, UsersAdapter.ViewHolder>(TrackDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent, viewModel)
@@ -27,8 +24,8 @@ class UsersAdapter ( val viewModel: UsersViewModel
         ) :
         RecyclerView.ViewHolder (binding.root) {
 
-        fun bind (user: User) {
-            binding.user = user
+        fun bind (video: Video) {
+            binding.user = video
             binding.executePendingBindings()
         }
 
@@ -48,18 +45,18 @@ class UsersAdapter ( val viewModel: UsersViewModel
         }
     }
 
-    class TrackDiffCallback : DiffUtil.ItemCallback<User> (){
+    class TrackDiffCallback : DiffUtil.ItemCallback<Video> (){
 
         override fun areItemsTheSame(
-            oldItem: User,
-            newItem: User
+            oldItem: Video,
+            newItem: Video
         ): Boolean {
             return oldItem.equals(newItem)
         }
 
         override fun areContentsTheSame(
-            oldItem: User,
-            newItem: User
+            oldItem: Video,
+            newItem: Video
         ): Boolean {
             return  oldItem == newItem
         }

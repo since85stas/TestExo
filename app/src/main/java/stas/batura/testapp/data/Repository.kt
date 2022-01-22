@@ -5,7 +5,7 @@ import androidx.datastore.DataStore
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
 import stas.batura.testapp.data.room.VideoDao
-import stas.batura.testapp.data.room.User
+import stas.batura.testapp.data.room.Video
 import stas.batura.testapp.UserPreferences
 import stas.batura.testapp.data.net.IRetrofit
 import javax.inject.Inject
@@ -49,11 +49,11 @@ class Repository @Inject constructor(): IRepository{
         Log.d(TAG, "loadUsers: ")
     }
 
-    override fun getUsers(): Flow<List<User>> {
-        return videoDao.getUsers()
+    override fun getUsers(): Flow<List<Video>> {
+        return videoDao.getVideos()
     }
 
-    override fun getUser(userId: Int): Flow<User> {
+    override fun getUser(userId: Int): Flow<Video> {
         return videoDao.getUserId(userId)
     }
 

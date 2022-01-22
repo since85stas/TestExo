@@ -5,18 +5,14 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
-import stas.batura.testapp.data.room.User
 
 @Dao
 interface VideoDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertPodcast(user: User): Long
+    suspend fun insertVideo(video: Video): Long
 
-    @Query("SELECT * from users_table ORDER BY userId")
-    fun getUsers() : Flow<List<User>>
-
-    @Query("SELECT * FROM users_table WHERE userId = :userId")
-    fun getUserId(userId: Int) : Flow<User>
+    @Query("SELECT * from video_table ORDER BY id ASC")
+    fun getVideos() : Flow<List<Video>>
 
 }
