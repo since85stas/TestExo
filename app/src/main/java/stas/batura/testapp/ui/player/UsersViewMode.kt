@@ -14,8 +14,6 @@ class UsersViewModel @ViewModelInject constructor(val repository: IRepository): 
     private val _toastText = MutableLiveData<String>()
     val toastTex: LiveData<String> get() = _toastText
 
-    val loginStatus = repository.isLogged().asLiveData()
-
     private val _spinner = MutableLiveData<Boolean>(false)
     val spinner: LiveData<Boolean> get() = _spinner
 

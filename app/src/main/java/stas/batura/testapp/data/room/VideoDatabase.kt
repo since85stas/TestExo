@@ -31,9 +31,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase
  * so you can reuse it.
  */
 @Database(entities =[Video::class], version = 3, exportSchema = false)
-@TypeConverters(
-    CategoryDataConverter::class,
-   )
 abstract class VideoDatabase : RoomDatabase() {
 
     /**
