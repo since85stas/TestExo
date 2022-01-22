@@ -3,11 +3,9 @@ package stas.batura.testapp.ui.users
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import stas.batura.testapp.data.IRepository
-import stas.batura.testapp.data.net.UserResponse
 
 private val TAG = "PayViewModel"
 
@@ -35,7 +33,7 @@ class UsersViewModel @ViewModelInject constructor(val repository: IRepository): 
 
     private fun loadData() {
         launchDataLoad {
-            repository.loadUsers()
+            repository.loadData()
         }
     }
 

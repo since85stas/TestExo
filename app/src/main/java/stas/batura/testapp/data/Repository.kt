@@ -8,6 +8,8 @@ import stas.batura.testapp.data.room.VideoDao
 import stas.batura.testapp.data.room.Video
 import stas.batura.testapp.UserPreferences
 import stas.batura.testapp.data.net.IRetrofit
+import stas.batura.testapp.data.net.Links
+import stas.batura.testapp.data.net.NetResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -41,31 +43,36 @@ class Repository @Inject constructor(): IRepository{
         Log.d(TAG, "Rep init: ")
     }
 
-    override suspend fun loadUsers() {
-        val users = retrofit.getData()
-//        for (user in users.users) {
-//            usersDao.insertPodcast(user = User.FromUserResponse.build(user))
-//        }
+    override suspend fun loadData() {
+        val data = retrofit.getData()
+        saveLinksInDb(data.links)
         Log.d(TAG, "loadUsers: ")
+    }
+
+    private suspend fun saveLinksInDb(links: Links) {
+        videoDao.insertVideo(Video(id = 0, url = links.single))
+        videoDao.insertVideo(Video(id = 1, url = links.splitH))
+        videoDao.insertVideo(Video(id = 2, url = links.splitV))
+        videoDao.insertVideo(Video(id = 3, url = links.src))
     }
 
     override fun getUsers(): Flow<List<Video>> {
         return videoDao.getVideos()
     }
 
-    override fun getUser(userId: Int): Flow<Video> {
-        return videoDao.getUserId(userId)
-    }
-
-    override fun isLogged(): Flow<Boolean> {
-        return dataStore.data.map {
-            it.isLogged
-        }
-    }
-
-    private suspend fun setName(name: String) {
-        dataStore.updateData { t: UserPreferences ->
-            t.toBuilder().setName(name).build()
-        }
-    }
+//    override fun getUser(userId: Int): Flow<Video> {
+//        return videoDao.getUserId(userId)
+//    }
+//
+//    override fun isLogged(): Flow<Boolean> {
+//        return dataStore.data.map {
+//            it.isLogged
+//        }
+//    }
+//
+//    private suspend fun setName(name: String) {
+//        dataStore.updateData { t: UserPreferences ->
+//            t.toBuilder().setName(name).build()
+//        }
+//    }
 }
