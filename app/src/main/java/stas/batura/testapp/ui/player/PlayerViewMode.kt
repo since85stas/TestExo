@@ -9,7 +9,7 @@ import stas.batura.testapp.data.IRepository
 
 private val TAG = "PayViewModel"
 
-class UsersViewModel @ViewModelInject constructor(val repository: IRepository): ViewModel() {
+class PlayerViewModel @ViewModelInject constructor(val repository: IRepository): ViewModel() {
 
     private val _toastText = MutableLiveData<String>()
     val toastTex: LiveData<String> get() = _toastText

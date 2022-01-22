@@ -105,6 +105,9 @@ dependencies {
 
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     implementation 'com.android.support:multidex:1.0.3'
+
+    //video/iptv - exo
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.14.2'
 }
 
 protobuf {

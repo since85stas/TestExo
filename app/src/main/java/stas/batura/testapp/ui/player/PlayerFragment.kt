@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -33,7 +34,7 @@ class PlayerFragment: Fragment() {
 
     private lateinit var testText: String
 
-//    private lateinit var viewModel: ReadViewModel
+    private lateinit var viewModel: PlayerViewModel
 //
 //    private lateinit var bindings: ReadFragmentBinding
 
@@ -45,8 +46,8 @@ class PlayerFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-//        viewModel =
-//            ViewModelProvider(this).get(ReadViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this).get(PlayerViewModel::class.java)
 //
 //        bindings = DataBindingUtil.inflate(inflater,
 //        R.layout.read_fragment,
@@ -64,21 +65,23 @@ class PlayerFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-//        readData()
 
         getPages()
 
-//        viewModel.currentPage.observe(viewLifecycleOwner) {
-//            viewPager.currentItem = it
-//        }
-//
-//        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-//            override fun onPageSelected(position: Int) {
-//                super.onPageSelected(position)
-//                // Теперь только необходимое
-//                viewModel.savePageToDb(position)
-//            }
-//        })
+        viewModel.spinner.observe(viewLifecycleOwner) { visible ->
+            if (visible) {
+                loadingSpinner.visibility = View.VISIBLE
+            } else {
+                loadingSpinner.visibility = View.GONE
+            }
+        }
+
+        viewModel.toastTex.observe(viewLifecycleOwner) {text ->
+            if (text.isNotBlank()) {
+                showToast(text)
+            }
+        }
+
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -111,7 +114,15 @@ class PlayerFragment: Fragment() {
     }
 
     /**
-     * A simple pager adapter that represents 2 ScreenSlidePageFragment objects, in
+     * пеоказывает тост с заданным сообщением
+     * @param message строка для отображения
+     */
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
+    }
+
+    /**
+     * A simple pager adapter that represents 4 ScreenSlidePageFragment objects, in
      * sequence.
      */
     inner class ScreenSlidePagerAdapter(
