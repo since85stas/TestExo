@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import kotlinx.android.synthetic.main.video_fragment.*
 import stas.batura.testapp.R
 
 public val ARG = "teststring"
@@ -46,6 +47,7 @@ class PageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arg = arguments?.getString(ARG) ?: ""
-        view.findViewById<TextView>(R.id.message).text = arg
+//        view.findViewById<TextView>(R.id.message).text = arg
+        url.text = arg
     }
 }
