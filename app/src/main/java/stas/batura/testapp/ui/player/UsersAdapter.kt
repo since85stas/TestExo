@@ -1,4 +1,4 @@
-package stas.batura.testapp.ui.users
+package stas.batura.testapp.ui.player
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

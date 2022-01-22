@@ -1,4 +1,4 @@
-package stas.batura.testapp.ui.users
+package stas.batura.testapp.ui.player
 
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject

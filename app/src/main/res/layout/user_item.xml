@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="stas.batura.testapp.ui.users.UsersViewModel" />
+            type="stas.batura.testapp.ui.player.UsersViewModel" />
     </data>
 
     <androidx.cardview.widget.CardView

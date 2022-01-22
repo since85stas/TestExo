@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/navigation_users"
         android:label="users"
-        android:name="stas.batura.testapp.ui.users.UsersFragment"
+        android:name="stas.batura.testapp.ui.player.UsersFragment"
         tools:layout="@layout/users_fragment">
         <action
             android:id="@+id/action_navigation_users_to_infoFragment"

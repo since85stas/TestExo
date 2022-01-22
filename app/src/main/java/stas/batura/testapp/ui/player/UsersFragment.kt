@@ -1,4 +1,4 @@
-package stas.batura.testapp.ui.users
+package stas.batura.testapp.ui.player
 
 import android.os.Bundle
 import android.util.Log

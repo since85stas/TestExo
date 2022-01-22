@@ -13,7 +13,7 @@ import stas.batura.testapp.data.net.NetResponse
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private val TAG = "Repository.kt"
+private const val TAG = "Repository.kt"
 
 @Singleton
 class Repository @Inject constructor(): IRepository{
