@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.datastore.DataStore
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.*
-import stas.batura.testapp.data.room.UsersDao
+import stas.batura.testapp.data.room.VideoDao
 import stas.batura.testapp.data.room.User
 import stas.batura.testapp.UserPreferences
 import stas.batura.testapp.data.net.IRetrofit
@@ -35,7 +35,7 @@ class Repository @Inject constructor(): IRepository{
 
     @Inject lateinit var dataStore: DataStore<UserPreferences>
 
-    @Inject lateinit var usersDao: UsersDao
+    @Inject lateinit var videoDao: VideoDao
 
     init {
         Log.d(TAG, "Rep init: ")
@@ -50,11 +50,11 @@ class Repository @Inject constructor(): IRepository{
     }
 
     override fun getUsers(): Flow<List<User>> {
-        return usersDao.getUsers()
+        return videoDao.getUsers()
     }
 
     override fun getUser(userId: Int): Flow<User> {
-        return usersDao.getUserId(userId)
+        return videoDao.getUserId(userId)
     }
 
     override fun isLogged(): Flow<Boolean> {

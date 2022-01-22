@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import stas.batura.testapp.data.room.User
 
 @Dao
-interface UsersDao {
+interface VideoDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertPodcast(user: User): Long

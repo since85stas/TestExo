@@ -34,12 +34,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 @TypeConverters(
     CategoryDataConverter::class,
    )
-abstract class UserDatabase : RoomDatabase() {
+abstract class VideoDatabase : RoomDatabase() {
 
     /**
      * Connects the database to the DAO.
      */
-    abstract val usersDatabaseDao: UsersDao
+    abstract val videoDatabaseDao: VideoDao
 
     /**
      * Define a companion object, this allows us to add functions on the SleepDatabase class.
@@ -58,7 +58,7 @@ abstract class UserDatabase : RoomDatabase() {
          *  thread to shared data are visible to other threads.
          */
         @Volatile
-        private var INSTANCE: UserDatabase? = null
+        private var INSTANCE: stas.batura.testapp.data.room.VideoDatabase? = null
 
         /**
          * Helper function to get the database.
@@ -77,7 +77,7 @@ abstract class UserDatabase : RoomDatabase() {
          *
          * @param context The application context Singleton, used to get access to the filesystem.
          */
-        fun getInstance(context: Context): UserDatabase {
+        fun getInstance(context: Context): VideoDatabase {
             // Multiple threads can ask for the database at the same time, ensure we only initialize
             // it once by using synchronized. Only one thread may enter a synchronized block at a
             // time.
@@ -106,13 +106,9 @@ abstract class UserDatabase : RoomDatabase() {
                 if (instance == null) {
                     instance = Room.databaseBuilder(
                             context.applicationContext,
-                            UserDatabase::class.java,
+                            VideoDatabase::class.java,
                             "lessons_history_database"
                     )
-                            // Wipes and rebuilds instead of migrating if no Migration object.
-                            // Migration is not part of this lesson. You can learn more about
-                            // migration with Room in this blog post:
-                            // https://medium.com/androiddevelopers/understanding-migrations-with-room-f01e04b07929
                             .fallbackToDestructiveMigration()
                             .addCallback(rdc)
                             .build()
