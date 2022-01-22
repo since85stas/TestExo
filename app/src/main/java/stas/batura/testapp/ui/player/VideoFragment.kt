@@ -8,16 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.google.android.exoplayer2.C
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.*
+import com.google.android.exoplayer2.audio.AudioSink
+import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import kotlinx.android.synthetic.main.video_fragment.*
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import stas.batura.testapp.R
 import stas.batura.testapp.data.room.Video
 
 public val ARG = "teststring"
+
+private const val TAG = "VideoFragment"
 
 class PageFragment : Fragment() {
 
@@ -56,7 +61,14 @@ class PageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         arg = arguments?.getString(ARG) ?: ""
 //        view.findViewById<TextView>(R.id.message).text = arg
-        url.text = arg
+//        url.text = arg
+
+        initVideoPlayer()
+
+//        playVideo()
+        play_button.setOnClickListener {
+            playVideo()
+        }
     }
 
     override fun onStart() {
@@ -88,7 +100,7 @@ class PageFragment : Fragment() {
         videoPlayer?.repeatMode = Player.REPEAT_MODE_ALL //REPEAT_MODE_ALL
         videoPlayer?.setWakeMode(C.WAKE_MODE_NETWORK)
         videoPlayer?.playWhenReady = false
-//        videoPlayer?.addListener(playbackListener)
+        videoPlayer?.addListener(playbackStateListener())
         videoPlayer?.prepare()
 
 
@@ -109,26 +121,63 @@ class PageFragment : Fragment() {
         }
     }
 
-    private fun playVideo(video: Video) {
+    private fun playVideo() {
         var url: String = ""
 
-        url = _viewModel.getMediaLocalPath(media)
+        url = arg
 
-        Timber.d(
-            "==> Play demo video, id: ${media.id}, index: ${_viewModel.indexOf(media)}, duration: ${(media.duration * 1000).toInt()} ====================="
-        )
+//        Timber.d(
+//            "==> Play demo video, id: ${media.id}, index: ${_viewModel.indexOf(media)}, duration: ${(media.duration * 1000).toInt()} ====================="
+//        )
 
         val mib: MediaItem.Builder =
             MediaItem.Builder().setUri(url)
-                .setTag(media)
-                .setMediaId(media.id.toString())
 
         val mediaItem = mib.build()
-        val mediaSource = DefaultMediaSourceFactory(_dataSourceFactory!!)
+        val mediaSource = DefaultMediaSourceFactory(DefaultDataSourceFactory(requireContext(), null))
             .createMediaSource(mediaItem)
 
         videoPlayer?.setMediaSource(mediaSource)
         videoPlayer?.prepare()
         videoPlayer?.play()
+    }
+
+    /**
+     * слушатель для ответов плеера
+     */
+    private fun playbackStateListener(): Player.Listener = object : Player.Listener {
+
+        // обработка ошибок
+        override fun onPlayerError(error: ExoPlaybackException) {
+
+            when (error.type) {
+                ExoPlaybackException.TYPE_SOURCE -> {
+                    Log.d(TAG, "onPlayerError: $error")
+                }
+
+                ExoPlaybackException.TYPE_RENDERER -> {
+                    Log.d(TAG,
+                        "ExoPlayer error, TYPE_RENDERER: $error"
+                    )
+                }
+
+                ExoPlaybackException.TYPE_UNEXPECTED -> {
+                    Log.d(TAG,
+                        "ExoPlayer error, TYPE_UNEXPECTED: $error"
+                    )
+                }
+                ExoPlaybackException.TYPE_REMOTE -> {
+                    Log.d(TAG,
+                        "ExoPlayer error, TYPE_REMOTE: $error"
+                    )
+                }
+                else -> {
+                    Log.d(TAG,
+                        "ExoPlayer error, TYPE_NOT_FOUND: $error"
+                    )
+                }
+            }
+
+        }
     }
 }
