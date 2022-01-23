@@ -1,5 +1,6 @@
 package stas.batura.testapp.ui.player
 
+import android.content.Context
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
@@ -19,8 +20,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import stas.batura.testapp.R
 import stas.batura.testapp.data.room.Video
+import android.widget.Toast
 
-public val ARG = "teststring"
+import com.google.android.material.snackbar.Snackbar
+
+
+public val ARG = "ArgumentKey"
 
 private const val TAG = "VideoFragment"
 
@@ -33,7 +38,7 @@ class PageFragment : Fragment() {
 //    private var _dataSourceFactory: DefaultDataSourceFactory? = null
 
     companion object {
-        fun newInstance(arg: String) =             PageFragment().apply {
+        fun newInstance(arg: String) = PageFragment().apply {
             arguments = Bundle().apply {
                 putString(ARG, arg)
             }
@@ -42,8 +47,10 @@ class PageFragment : Fragment() {
 
 //    private lateinit var viewModel: PageViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
 
         val view = inflater.inflate(R.layout.video_fragment, container, false)
 
@@ -55,7 +62,7 @@ class PageFragment : Fragment() {
 
 //        viewModel = ViewModelProvider(this).get(PageViewModel::class.java)
         // TODO: Use the ViewModel
-        Log.d("fragm", "onActivityCreated: " + arg)
+        Log.d(TAG, "onActivityCreated: " + arg)
 
     }
 
@@ -84,7 +91,6 @@ class PageFragment : Fragment() {
     }
 
     override fun onStop() {
-
         super.onStop()
     }
 
@@ -127,19 +133,20 @@ class PageFragment : Fragment() {
             stop()
             release()
         }
-            videoPlayer = null
+        videoPlayer = null
     }
 
     private fun playVideo() {
-        var url: String = arg
-
         val mib: MediaItem.Builder =
-            MediaItem.Builder().setUri(url)
+            MediaItem.Builder().setUri(arg)
 
         val mediaItem = mib.build()
-        val mediaSource = DefaultMediaSourceFactory(DefaultDataSourceFactory(
-            requireContext(),
-            "Google Chrome")).createMediaSource(mediaItem)
+        val mediaSource = DefaultMediaSourceFactory(
+            DefaultDataSourceFactory(
+                requireContext(),
+                "Google Chrome"
+            )
+        ).createMediaSource(mediaItem)
 
         videoPlayer?.setMediaSource(mediaSource)
         videoPlayer?.prepare()
@@ -160,32 +167,53 @@ class PageFragment : Fragment() {
 
             when (error.type) {
                 ExoPlaybackException.TYPE_SOURCE -> {
-                    Log.d(TAG, "onPlayerError: $error")
+                    Log.d(TAG,
+                        "onPlayerError: $error")
+                    createSnack("Video error: Source")
                 }
 
                 ExoPlaybackException.TYPE_RENDERER -> {
-                    Log.d(TAG,
+                    Log.d(
+                        TAG,
                         "ExoPlayer error, TYPE_RENDERER: $error"
                     )
+                    createSnack("Video error: Renderer")
                 }
 
                 ExoPlaybackException.TYPE_UNEXPECTED -> {
-                    Log.d(TAG,
+                    Log.d(
+                        TAG,
                         "ExoPlayer error, TYPE_UNEXPECTED: $error"
                     )
+                    createSnack("Video error: Unexpected")
                 }
                 ExoPlaybackException.TYPE_REMOTE -> {
-                    Log.d(TAG,
+                    Log.d(
+                        TAG,
                         "ExoPlayer error, TYPE_REMOTE: $error"
                     )
+                    createSnack("Video error: Remote")
                 }
                 else -> {
-                    Log.d(TAG,
+                    Log.d(
+                        TAG,
                         "ExoPlayer error, TYPE_NOT_FOUND: $error"
                     )
+                    createSnack("Video error: Unknown")
                 }
             }
 
         }
+    }
+
+    private fun createSnack(text:String) {
+        val snackbar =
+            Snackbar.make(requireView(), text, Snackbar.LENGTH_INDEFINITE)
+        snackbar.setAction(
+            "CLOSE"
+        ) {
+
+        }
+        snackbar.show()
     }
 }

@@ -113,20 +113,6 @@ class PlayerFragment: Fragment() {
         }
 
         viewPager.currentItem = startPage
-//        viewPager.getViewTreeObserver().addOnGlobalLayoutListener(object :
-//            ViewTreeObserver.OnGlobalLayoutListener {
-//            override fun onGlobalLayout() {
-//                pagerAdapter = ScreenSlidePagerAdapter(requireActivity().supportFragmentManager, videos)
-//                viewPager.setAdapter(pagerAdapter)
-//                viewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this)
-//
-//                for (video in videos) {
-//                    pagerAdapter.addFragment(PageFragment.newInstance((video.url)))
-//                }
-//
-//                viewPager.currentItem = startPage
-//            }
-//        })
     }
 
     /**
@@ -159,8 +145,6 @@ class PlayerFragment: Fragment() {
             Log.d(TAG, "getItemId: $position" )
             return super.getItemId(position)
         }
-
-
 
         fun addFragment(fragment: Fragment?) {
             arrayList.add(fragment!!)
