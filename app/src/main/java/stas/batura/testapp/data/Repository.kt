@@ -35,12 +35,19 @@ class Repository @Inject constructor(): IRepository{
         Log.d(TAG, "Rep init: ")
     }
 
+    /**
+     * пытаемся сказать данные, если успешно, то сохраняем их в БД, и говорим, что данные были скачаны
+     */
     override suspend fun loadData() {
         val data = retrofit.getData()
         saveLinksInDb(data.links)
+        dataIsLoaded()
         Log.d(TAG, "loadUsers: ")
     }
 
+    /**
+     * сохраняем в БД, так как все ссылки равнозначные, храним в одной таблице
+     */
     private suspend fun saveLinksInDb(links: Links) {
         videoDao.insertVideo(Video(id = 0, url = links.single))
         videoDao.insertVideo(Video(id = 1, url = links.splitH))
@@ -52,16 +59,19 @@ class Repository @Inject constructor(): IRepository{
         return videoDao.getVideos()
     }
 
-//    override fun getUser(userId: Int): Flow<Video> {
-//        return videoDao.getUserId(userId)
-//    }
-//
-    override fun isLogged(): Flow<Boolean> {
+    /**
+     * показывает было ли хоть одно соединение с сервером, если нет, то данных тоже нет,
+     * и плеер показывать бессмысленно
+     */
+    override fun isDataLoaded(): Flow<Boolean> {
         return dataStore.data.map {
             it.isDataStored
         }
     }
 
+    /**
+     * записываем что данные были получены
+     */
     override fun dataIsLoaded(){
         repScope.launch {
             dataStore.updateData { t: UserPreferences ->

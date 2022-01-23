@@ -35,8 +35,6 @@ class PageFragment : Fragment() {
 
     private var videoPlayer: SimpleExoPlayer? = null
 
-//    private var _dataSourceFactory: DefaultDataSourceFactory? = null
-
     companion object {
         fun newInstance(arg: String) = PageFragment().apply {
             arguments = Bundle().apply {
@@ -44,8 +42,6 @@ class PageFragment : Fragment() {
             }
         }
     }
-
-//    private lateinit var viewModel: PageViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

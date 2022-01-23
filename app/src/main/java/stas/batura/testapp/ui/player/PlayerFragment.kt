@@ -25,24 +25,14 @@ import stas.batura.testapp.R
 import stas.batura.testapp.data.room.Video
 import stas.batura.testapp.utils.ZoomOutPageTransformer
 
-private val TAG = "PlayerFragment.kt"
+private val TAG = "PlayerFragment"
 
 @AndroidEntryPoint
 class PlayerFragment: Fragment() {
 
-    private val TAG = "MainActivity.kt"
-
     private lateinit var pagerAdapter: ScreenSlidePagerAdapter
 
-    private lateinit var testText: String
-
     private lateinit var viewModel: PlayerViewModel
-
-    private var videoPlayer: SimpleExoPlayer? = null
-
-//    private var _dataSourceFactory: DefaultDataSourceFactory? = null
-//
-//    private lateinit var bindings: ReadFragmentBinding
 
     private var startPage: Int = 0
 
@@ -54,18 +44,6 @@ class PlayerFragment: Fragment() {
 
         viewModel =
             ViewModelProvider(this).get(PlayerViewModel::class.java)
-//
-//        bindings = DataBindingUtil.inflate(inflater,
-//        R.layout.read_fragment,
-//        container,
-//        false)
-//
-//        bindings.viewModel = viewModel
-//
-//        bindings.lifecycleOwner = viewLifecycleOwner
-//
-//        startPage = viewModel.repository.getLastPage()
-//        inflater.inflate(R.layout.player_fragment, container, false)
         return inflater.inflate(R.layout.player_fragment, container, false)
     }
 
@@ -74,7 +52,6 @@ class PlayerFragment: Fragment() {
         viewModel.users.observe(viewLifecycleOwner) {videos ->
             initPlayerVideos(videos = videos)
         }
-//        initPlayerVideos()
 
         viewModel.spinner.observe(viewLifecycleOwner) { visible ->
             if (visible) {
@@ -90,8 +67,15 @@ class PlayerFragment: Fragment() {
             }
         }
 
-//        initVideoPlayer()
-
+        // показывает скачались ли уже данные, если удачного скачивания не было,
+        // то фрагмент с плеером не показываем
+        viewModel.isDataReady.observe(viewLifecycleOwner) { ready ->
+            if (ready) {
+                viewPager.visibility = View.VISIBLE
+            } else {
+                viewPager.visibility = View.GONE
+            }
+        }
         super.onViewCreated(view, savedInstanceState)
     }
 
@@ -101,12 +85,10 @@ class PlayerFragment: Fragment() {
 
     private fun initPlayerVideos(videos: List<Video>) {
         viewPager.setPageTransformer(ZoomOutPageTransformer())
-
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
         pagerAdapter = ScreenSlidePagerAdapter(requireActivity().supportFragmentManager, videos)
         viewPager.setAdapter(pagerAdapter)
-//        viewPager.getViewTreeObserver().removeOnGlobalLayoutListener(this)
 
         for (video in videos) {
             pagerAdapter.addFragment(PageFragment.newInstance((video.url)))
@@ -124,8 +106,8 @@ class PlayerFragment: Fragment() {
     }
 
     /**
-     * A simple pager adapter that represents 4 ScreenSlidePageFragment objects, in
-     * sequence.
+     * простой пейджер - добавляет фрагменты с плеером по количеству видео,
+     * в нашем случае будет 4
      */
     inner class ScreenSlidePagerAdapter(
         val fragmentManager: FragmentManager,
