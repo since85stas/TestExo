@@ -19,22 +19,7 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.main_activity)
 
-        val navView: BottomNavigationView = findViewById(R.id.nav_view)
-
         val navController = findNavController(R.id.nav_host_fragment)
-
-        navView.setupWithNavController(navController)
-
-
-//
-//        val sendIntend = Intent().apply {
-//            action = Intent.ACTION_ANSWER
-//            putExtra(Intent.EXTRA_TEXT, "Привет")
-//            setType("text/plain")
-//        }
-//        val rr = "fff"
-//
-//        startActivity(sendIntend)
     }
 
 

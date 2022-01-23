@@ -47,8 +47,6 @@ class PageFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.video_fragment, container, false)
 
-//        _dataSourceFactory =
-
         return view
     }
 
@@ -70,6 +68,10 @@ class PageFragment : Fragment() {
         play_button.setOnClickListener {
             playVideo()
         }
+
+        pause_button.setOnClickListener {
+            pauseVideo()
+        }
     }
 
     override fun onStart() {
@@ -77,9 +79,7 @@ class PageFragment : Fragment() {
     }
 
     override fun onPause() {
-        videoPlayer?.apply {
-            stop()
-        }
+        pauseVideo()
         super.onPause()
     }
 
@@ -123,14 +123,11 @@ class PageFragment : Fragment() {
      * очищаем ExoPlayer
      */
     private fun releaseVideoPlayer() {
-        if (videoPlayer != null) {
-//            _viewModel.stopContent() //for the case if this is return from pause
-//            _viewModel.clearExoplayerList
-//            videoPlayer?.removeListener(playbackListener)
-            videoPlayer?.stop()
-            videoPlayer?.release()
-            videoPlayer = null
+        videoPlayer?.apply {
+            stop()
+            release()
         }
+            videoPlayer = null
     }
 
     private fun playVideo() {
@@ -147,6 +144,10 @@ class PageFragment : Fragment() {
         videoPlayer?.setMediaSource(mediaSource)
         videoPlayer?.prepare()
         videoPlayer?.play()
+    }
+
+    private fun pauseVideo() {
+        videoPlayer?.pause()
     }
 
     /**
