@@ -19,18 +19,10 @@ private const val TAG = "Repository.kt"
 class Repository @Inject constructor(): IRepository{
 
     /**
-     * viewModelJob allows us to cancel all coroutines started by this ViewModel.
+     * viewModelJob allows us to cancel all coroutines started
      */
     private var repositoryJob = Job()
 
-    /**
-     * A [CoroutineScope] keeps track of all coroutines started by this ViewModel.
-     *
-     * Because we pass it [repositoryJob], any coroutine started in this uiScope can be cancelled
-     *
-     * By default, all coroutines started in uiScope will launch in [Dispatchers.Main] which is
-     * the main thread on Android.
-     */
     private val repScope = CoroutineScope(Dispatchers.IO + repositoryJob)
 
     @Inject lateinit var retrofit: IRetrofit

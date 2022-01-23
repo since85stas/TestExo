@@ -30,6 +30,8 @@ class PageFragment : Fragment() {
 
     private var videoPlayer: SimpleExoPlayer? = null
 
+//    private var _dataSourceFactory: DefaultDataSourceFactory? = null
+
     companion object {
         fun newInstance(arg: String) =             PageFragment().apply {
             arguments = Bundle().apply {
@@ -44,6 +46,8 @@ class PageFragment : Fragment() {
                               savedInstanceState: Bundle?): View {
 
         val view = inflater.inflate(R.layout.video_fragment, container, false)
+
+//        _dataSourceFactory =
 
         return view
     }
@@ -60,12 +64,9 @@ class PageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         arg = arguments?.getString(ARG) ?: ""
-//        view.findViewById<TextView>(R.id.message).text = arg
-//        url.text = arg
 
         initVideoPlayer()
 
-//        playVideo()
         play_button.setOnClickListener {
             playVideo()
         }
@@ -75,17 +76,27 @@ class PageFragment : Fragment() {
         super.onStart()
     }
 
+    override fun onPause() {
+        videoPlayer?.apply {
+            stop()
+        }
+        super.onPause()
+    }
+
     override fun onStop() {
+
         super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        releaseVideoPlayer()
     }
 
     /**
      * инициалзиция Exoplayer
      */
     private fun initVideoPlayer() {
-
-        //TODO: подумать над этим
-        if (videoPlayer != null) return
 
         val trackSelector = DefaultTrackSelector(requireActivity())
 
@@ -96,15 +107,16 @@ class PageFragment : Fragment() {
         videoPlayer =
             SimpleExoPlayer.Builder(requireContext()).setTrackSelector(trackSelector).build()
 
-//        binding?.videoView?.player = videoPlayer
-        videoPlayer?.repeatMode = Player.REPEAT_MODE_ALL //REPEAT_MODE_ALL
-        videoPlayer?.setWakeMode(C.WAKE_MODE_NETWORK)
-        videoPlayer?.playWhenReady = false
-        videoPlayer?.addListener(playbackStateListener())
-        videoPlayer?.prepare()
+        video_view.player = videoPlayer
 
+        videoPlayer?.apply {
+            repeatMode = Player.REPEAT_MODE_ALL //REPEAT_MODE_ALL
+            setWakeMode(C.WAKE_MODE_NETWORK)
+            playWhenReady = false
+            addListener(playbackStateListener())
+            prepare()
+        }
 
-//        _viewModel.restartContent() //for the case if this is return from pause
     }
 
     /**
@@ -122,20 +134,15 @@ class PageFragment : Fragment() {
     }
 
     private fun playVideo() {
-        var url: String = ""
-
-        url = arg
-
-//        Timber.d(
-//            "==> Play demo video, id: ${media.id}, index: ${_viewModel.indexOf(media)}, duration: ${(media.duration * 1000).toInt()} ====================="
-//        )
+        var url: String = arg
 
         val mib: MediaItem.Builder =
             MediaItem.Builder().setUri(url)
 
         val mediaItem = mib.build()
-        val mediaSource = DefaultMediaSourceFactory(DefaultDataSourceFactory(requireContext(), null))
-            .createMediaSource(mediaItem)
+        val mediaSource = DefaultMediaSourceFactory(DefaultDataSourceFactory(
+            requireContext(),
+            "Google Chrome")).createMediaSource(mediaItem)
 
         videoPlayer?.setMediaSource(mediaSource)
         videoPlayer?.prepare()
