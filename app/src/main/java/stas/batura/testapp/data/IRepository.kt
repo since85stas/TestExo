@@ -12,7 +12,9 @@ interface IRepository {
 
 //    fun getUser(userId: Int): Flow<Video>
 //
-//    fun isLogged(): Flow<Boolean>
+    fun isLogged(): Flow<Boolean>
+
+    fun dataIsLoaded()
 //
 //    suspend fun loadUsers()
 

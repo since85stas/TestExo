@@ -56,15 +56,17 @@ class Repository @Inject constructor(): IRepository{
 //        return videoDao.getUserId(userId)
 //    }
 //
-//    override fun isLogged(): Flow<Boolean> {
-//        return dataStore.data.map {
-//            it.isLogged
-//        }
-//    }
-//
-//    private suspend fun setName(name: String) {
-//        dataStore.updateData { t: UserPreferences ->
-//            t.toBuilder().setName(name).build()
-//        }
-//    }
+    override fun isLogged(): Flow<Boolean> {
+        return dataStore.data.map {
+            it.isDataStored
+        }
+    }
+
+    override fun dataIsLoaded(){
+        repScope.launch {
+            dataStore.updateData { t: UserPreferences ->
+                t.toBuilder().setIsDataStored(true).build()
+            }
+        }
+    }
 }
