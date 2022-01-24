@@ -20,8 +20,6 @@ class PlayerViewModel @ViewModelInject constructor(val repository: IRepository):
 
     val isDataReady = repository.isDataLoaded().asLiveData()
 
-//    val user = repository.getUser()
-
     val users = repository.getVideos().asLiveData()
 
     init {

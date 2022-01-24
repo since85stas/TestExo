@@ -55,15 +55,13 @@ class PageFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-//        viewModel = ViewModelProvider(this).get(PageViewModel::class.java)
-        // TODO: Use the ViewModel
         Log.d(TAG, "onActivityCreated: " + arg)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // получаем сылку на видео
         arg = arguments?.getString(ARG) ?: ""
 
         initVideoPlayer()
@@ -144,9 +142,11 @@ class PageFragment : Fragment() {
             )
         ).createMediaSource(mediaItem)
 
-        videoPlayer?.setMediaSource(mediaSource)
-        videoPlayer?.prepare()
-        videoPlayer?.play()
+        videoPlayer?.apply {
+            setMediaSource(mediaSource)
+            prepare()
+            play()
+        }
     }
 
     private fun pauseVideo() {
