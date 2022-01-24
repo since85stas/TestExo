@@ -68,7 +68,7 @@ class PlayerFragment: Fragment() {
         }
 
         // показывает скачались ли уже данные, если удачного скачивания не было,
-        // то фрагмент с плеером не показываем
+        // то вью с плеером не показываем
         viewModel.isDataReady.observe(viewLifecycleOwner) { ready ->
             if (ready) {
                 viewPager.visibility = View.VISIBLE

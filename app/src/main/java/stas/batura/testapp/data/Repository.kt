@@ -19,7 +19,7 @@ private const val TAG = "Repository.kt"
 class Repository @Inject constructor(): IRepository{
 
     /**
-     * viewModelJob allows us to cancel all coroutines started
+     * kotlin allows us to cancel all coroutines started
      */
     private var repositoryJob = Job()
 

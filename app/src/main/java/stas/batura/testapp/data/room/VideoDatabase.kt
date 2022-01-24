@@ -24,11 +24,8 @@ import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
 
 /**
- * A database that stores SleepNight information.
+ * A database that stores information.
  * And a global method to get access to the database.
- *
- * This pattern is pretty much the same for any database,
- * so you can reuse it.
  */
 @Database(entities =[Video::class], version = 4, exportSchema = false)
 abstract class VideoDatabase : RoomDatabase() {
@@ -65,13 +62,6 @@ abstract class VideoDatabase : RoomDatabase() {
          *
          * This function is threadsafe, and callers should cache the result for multiple database
          * calls to avoid overhead.
-         *
-         * This is an example of a simple Singleton pattern that takes another Singleton as an
-         * argument in Kotlin.
-         *
-         * To learn more about Singleton read the wikipedia article:
-         * https://en.wikipedia.org/wiki/Singleton_pattern
-         *
          * @param context The application context Singleton, used to get access to the filesystem.
          */
         fun getInstance(context: Context): VideoDatabase {
