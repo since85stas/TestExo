@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class RoomModule {
 
     @Provides
-    fun providePressureDao(videoDatabase: VideoDatabase): VideoDao {
+    fun provideVideoDao(videoDatabase: VideoDatabase): VideoDao {
         return videoDatabase.videoDatabaseDao
     }
 
