@@ -208,7 +208,7 @@ class PageFragment : Fragment() {
         snackbar.setAction(
             "CLOSE"
         ) {
-
+            Log.d(TAG, "createSnack: close")
         }
         snackbar.show()
     }

@@ -36,6 +36,10 @@ class PlayerViewModel @ViewModelInject constructor(val repository: IRepository):
         }
     }
 
+    /**
+     * пока идет загрузка показываем progressBar, после выключаем
+     * в случаи ошибки показываем тост
+     */
     private fun launchDataLoad(block: suspend () -> Unit): Job {
         return viewModelScope.launch {
             try {
